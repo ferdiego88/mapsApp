@@ -5,6 +5,7 @@
   <li class="list-group-item"
       *ngFor="let marcadorColor of marcadoresColor let i= index"
       (click)="irMarcador(marcadorColor.marker)"
+      (dblclick)="deleteMarker(i)"
        [ngStyle]="{
         'background-color':marcadorColor.color
        }" >

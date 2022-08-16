@@ -69,7 +69,9 @@ export class MarcadoresComponent implements AfterViewInit{
       });
 
       this.saveMarkersLocalStorage();
-      console.log(this.marcadoresColor);
+      newmarker.on('dragend',() => {
+        this.saveMarkersLocalStorage();
+      })
 
   }
 
@@ -92,8 +94,6 @@ export class MarcadoresComponent implements AfterViewInit{
       return;
     }
     const lngLatArr: MarcadorColor[] = JSON.parse(localStorage.getItem('marcadores')!);
-    console.log(lngLatArr);
-
     lngLatArr.forEach(m => {
       const newMarker = new mapboxgl.Marker({
         color: m.color,
@@ -104,8 +104,18 @@ export class MarcadoresComponent implements AfterViewInit{
         this.marcadoresColor.push({
           marker: newMarker,
           color:m.color
+        });
+
+        newMarker.on('dragend',() => {
+          this.saveMarkersLocalStorage();
         })
     })
 
+  }
+
+  deleteMarker(i: number){
+    this.marcadoresColor[i].marker?.remove();
+    this.marcadoresColor.splice(i,1);
+    this.saveMarkersLocalStorage();
   }
 }
